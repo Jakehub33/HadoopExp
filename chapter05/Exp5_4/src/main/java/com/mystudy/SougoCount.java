@@ -63,9 +63,9 @@ public class SougoCount {
         job.setMapperClass(SCMapper.class);
         job.setReducerClass(SCReducer.class);
         //文件路径
-        FileInputFormat.addInputPath(job, new Path("/input/sogou.500w.utf8"));
+        FileInputFormat.addInputPath(job, new Path(args[0]));
         //结果路径
-        FileOutputFormat.setOutputPath(job, new Path("/output/CountTop"));
+        FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
         job.waitForCompletion(true);
     }
