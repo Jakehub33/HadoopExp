@@ -7,7 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="mapreduce_serialize" />
+        <module name="sale" />
       </profile>
     </annotationProcessing>
   </component>

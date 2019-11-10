@@ -5,10 +5,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.mystudy</groupId>
-  <artifactId>mapreduce_serialize</artifactId>
+  <artifactId>sale</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>mapreduce_serialize</name>
+  <name>sale</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
@@ -59,12 +59,11 @@
             <archieve>
               <manifest>
                 <!--main()所在的类，注意修改-->
-                <mainClass>com.mystudy.WordCountMain</mainClass>
+                <mainClass>com.mystudy.SoldMain</mainClass>
               </manifest>
             </archieve>
           </configuration>
         </plugin>
-
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
           <version>3.1.0</version>
