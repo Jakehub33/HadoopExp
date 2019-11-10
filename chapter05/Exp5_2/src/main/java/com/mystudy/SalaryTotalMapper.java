@@ -1,36 +1,54 @@
 package com.mystudy;
-
-import org.apache.hadoop.io.LongWritable;
-import org.apache.hadoop.io.Text;
-import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.mapreduce.Mapper;
-
 import java.io.IOException;
 
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.NullWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
 
-/*实验一public class WordCountMapper extends Mapper <LongWritable, Text, Text,IntWritable>{*/
-public class SalaryTotalMapper extends Mapper <LongWritable, Text, IntWritable,IntWritable>{
+public class SalaryTotalMapper extends Mapper< LongWritable, Text, NullWritable,  Employee> {
+
     @Override
-    protected void map(LongWritable key, Text value1, Context context)
+    protected void map(LongWritable k1, Text v1,
+                       Context context)
             throws IOException, InterruptedException {
-        //数据：Where there is a will, there is a way
-        //String data = "Where there is a will, there is a way";
-        String data = value1.toString();
-        //String对象split()方法划分词
-        /*实验一//data.split(data,'');同时用双引号不用单引号
-        String[] words = data.split(" ");*/
+        //数据：7499,ALLEN,SALESMAN,7698,1981/2/20,1600,300,30
+        String data = v1.toString();
         String[] words = data.split(",");
-        //for循环输出kv,v2
-        //for(word in words){
-        /*实验一
-        for(String word:words){
-            context.write(new Text(word),new IntWritable(1));
-        }*/
-        //取出部门号words[7]，将String转换为Int，Int转换为IntWritable对象，赋值为k2，取出工资words[5]，将String转换为Int，Int转换为IntWritable对象，赋值为v2，最终输出k2, v2
-        //if( words.length>7  &&  !words[7].isEmpty()  &&   !words[6].isEmpty()) {
-        if( words.length>7  &&  !words[7].isEmpty()) {
-            context.write(new IntWritable(Integer.parseInt(words[7])),
-                    new IntWritable(Integer.parseInt(words[5])));
+
+        //创建员工对象
+        Employee emp = new Employee();
+        //设置员工属性
+        emp.setEmpno(Integer.parseInt(words[0]));
+
+        emp.setEname(words[1]);
+
+        emp.setJob(words[2]);
+
+        try {
+            emp.setMgr(Integer.parseInt(words[3]));//可能为空,加try...catch包围
+        } catch (NumberFormatException ex) {
+            ex.printStackTrace();
         }
+
+        emp.setHiredate(words[4]);
+
+        emp.setSal(Integer.parseInt(words[5]));
+
+        try {
+            emp.setComm(Integer.parseInt(words[6]));//可能为空
+        } catch (NumberFormatException ex) {
+            ex.printStackTrace();
+        }
+
+        emp.setDeptno(Integer.parseInt(words[7]));
+
+        //取出部门号words[7]，将String转换为Int，Int转换为IntWritable对象，赋值为k2
+        NullWritable k2 = NullWritable.get();
+        //取出工资words[5]，将String转换为Int，Int转换为IntWritable对象，赋值为v2
+        Employee v2 = emp;
+        //输出k2, v2
+        context.write(k2, v2);
     }
+
 }

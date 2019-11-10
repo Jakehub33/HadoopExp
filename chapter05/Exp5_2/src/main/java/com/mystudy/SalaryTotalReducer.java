@@ -1,28 +1,20 @@
 package com.mystudy;
 
-import org.apache.hadoop.io.IntWritable;
-//import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.Reducer;
-
 import java.io.IOException;
 
-//实验一public class WordCountReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
-public class SalaryTotalReducer extends Reducer<IntWritable, IntWritable, IntWritable, IntWritable> {
-//    throws IOException, InterruptedException{
+import org.apache.hadoop.io.NullWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Reducer;
+
+public class SalaryTotalReducer extends Reducer<NullWritable,Employee,NullWritable,Text> {
+
     @Override
-    protected void reduce(IntWritable k3, Iterable<IntWritable> v3, Context context) throws IOException, InterruptedException {
-        //super.reduce(key, values, context);
-        /*
-         * context是reduce的上下文
-         * 上文
-         * 下文
-         */
-        //对v3求和
-        int total = 0;
-        for(IntWritable v:v3){
-            total += v.get();
+    protected void reduce(NullWritable k3, Iterable<Employee> v3,
+                          Context context) throws IOException, InterruptedException {
+        String line=null;
+        for (Employee v : v3) {
+            line = v.toString();
+            context.write(k3, new Text(line));
         }
-        //输出k4单词：频率
-        context.write(k3, new IntWritable(total));
     }
 }
